@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <button class="btn btn-outline-success" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy Now</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row mt-2">
+    <div class="card" style="width: 18rem;" *ngFor="let item of productArray">
+      <div class="card-body">
+        <h5 class="card-title">{{item.product}}</h5>
+        <p class="card-text">{{item.prize | currency:'INR'}}</p>
+        <a class="btn btn-primary" (click)="addTable(item)">Add Product</a>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Prize</th>
+          <th scope="col">Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of productTableArray">
+          <th scope="row">{{item.product}}</th>
+          <td>{{item.prize}}</td>
+          <td>{{item.count}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>
+
+
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Side Nav</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="productForm">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Product</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="product">
+            <ng-template [ngIf]="(f['product'].touched ||  submitted) && f['product'].errors?.['required']">
+              <small class="text-danger">Product is required.</small>
+              </ng-template>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Prize</label>
+            <input type="number" class="form-control" id="exampleInputPassword1" formControlName="prize">
+            <ng-template [ngIf]="(f['prize'].touched ||  submitted) && f['prize'].errors?.['required']">
+              <small class="text-danger">Prize is required.</small>
+              </ng-template>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addProduct()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
